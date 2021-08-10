@@ -1,4 +1,3 @@
-import LabelList from "./components/labels_list"
 import './App.css';
 
 import 'antd/dist/antd.css';
@@ -7,6 +6,8 @@ import { ApplicationState } from "./state/interfaces";
 import React, { Dispatch, useEffect, useState } from "react";
 import { labelSelectedAction, loadImagesAction, loadLabelsAction, saveImageAndLabelsAction } from "./components/labels_list/actions";
 import { AppImage, AppImageList, LabelListDto } from "./data/dto";
+import LabelCategories from "./components/label_categories";
+import ImagePagination from "./components/image_pagination";
 
 function App() {
   const dispatch = useDispatch()
@@ -30,17 +31,17 @@ function App() {
       <div className="overlay flex flex-row w-100">
         <div className="input-area w-20 pa3">
           <div className="h-90">
-            {renderLabelCategories(labelData, imageToRender, onLabelSelectionMade(dispatch, imageToRender))}
+            <LabelCategories
+              labelData={labelData}
+              currentImage={imageToRender}
+              selectionMade={onLabelSelectionMade(dispatch, imageToRender)} />
           </div>
           <div className="h-10 flex flex-row items-center justify-center">
-            {
-              renderPaginationSelectors(
-                currentImageIdx,
-                images.length,
-                onPrevClicked(currentImageIdx, setCurrentImageIdx),
-                onNextClicked(currentImageIdx, images, labelData, setCurrentImageIdx, dispatch)
-              )
-            }
+            <ImagePagination
+              currentIdx={currentImageIdx}
+              imageArraySize={images.length}
+              onPrevClicked={onPrevClicked(currentImageIdx, setCurrentImageIdx)}
+              onNextClicked={onNextClicked(currentImageIdx, images, labelData, setCurrentImageIdx, dispatch)} />
           </div>
         </div>
       </div>
@@ -86,41 +87,6 @@ function onNextClicked(
 
     if (currentImageIdx < images.length - 1) setCurrentImageIdx(++currentImageIdx)
   }
-}
-
-function renderLabelCategories(labelData: LabelListDto, currentImage: AppImage, selectionMade: (key: string, label: string) => void) {
-  return labelData.map(label => {
-    return (
-      <LabelList
-        key={label.key}
-        inputFieldLabel={label.title}
-        labelsToPickFrom={label.labels}
-        required={label.required}
-        currentlySelectedLabel={currentImage.labels[label.key]}
-        onLabelSelected={selectedLabel => selectionMade(label.key, selectedLabel)} />
-    )
-  })
-}
-
-function renderPaginationSelectors(
-  currentIdx: number,
-  imageArraySize: number,
-  onPrevClicked: () => void,
-  onNextClicked: () => void
-) {
-  return (
-    <>
-      <div className="flexitems-center justify-center pa2 f3 f2-m f1-l fw2 black-90">
-        <a onClick={onPrevClicked}>{"<"}</a>
-      </div>
-      <div className="flex items-center justify-center pa2 f3 f2-m f1-l fw2 black-90">
-        {currentIdx + 1}/{imageArraySize}
-      </div>
-      <div className=" flex items-center justify-center pa2 f3 f2-m f1-l fw2 black-90">
-        <a onClick={onNextClicked}>{">"}</a>
-      </div>
-    </>
-  )
 }
 
 export default App;
