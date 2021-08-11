@@ -13,6 +13,8 @@ The idea was to keep things simple and provide a simple UI where the user can ju
 
 The list of tags and their types are all provided via a JSON data structure so it's easy to change the labels at anytime using one api call.
 
+You can explore the //TODO sections to see points in the code earmarked for extension.
+
 ## Evolution
 
 Becuase images in video can be more or less the same over a lot of frames (Assuming something like a 30 fps video) it would be nice to group the images by similarity using some neural net such that the user can select just one on each group of images and all the other similar frames would also carry the same lebel.
