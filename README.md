@@ -6,10 +6,10 @@
     npm start
 ```
 
-## The appreach
+## The approach
 I chose a react-redux-thunk combination because it offers the right flexibility and structure such that the code can be extended easiliy.
 
-The idea was to keep things simple and provide a simple UI where the user can just most back and forth on a list of images (this can be random clips or frames from a video)
+The idea was to keep things simple and provide a simple UI where the user can just move back and forth on a list of images (this can be random clips or frames from a video)
 
 The list of tags and their types are all provided via a JSON data structure so it's easy to change the labels at anytime using one api call.
 
